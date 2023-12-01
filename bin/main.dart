@@ -4,9 +4,9 @@ import 'package:args/args.dart';
 import 'package:tint/tint.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:import_sorter/args.dart' as local_args;
-import 'package:import_sorter/files.dart' as files;
-import 'package:import_sorter/sort_manager.dart';
+import 'package:flutter_import_sorter/args.dart' as local_args;
+import 'package:flutter_import_sorter/files.dart' as files;
+import 'package:flutter_import_sorter/sort_manager.dart';
 
 void main(List<String> args) {
   // Parsing arguments
