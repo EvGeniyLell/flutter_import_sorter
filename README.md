@@ -1,9 +1,8 @@
 usage:
-add to pubspec.yamal
+add to pubspec.yaml
 ```yaml
-import_sorter:
-  emojis: true # Optional, defaults to false
-  comments: false # Optional, defaults to true
+flutter_import_sorter:
+  comments: true # Optional, defaults to false
   ignored_files: # Optional, defaults to []
     - \/lib\/*
 ```
