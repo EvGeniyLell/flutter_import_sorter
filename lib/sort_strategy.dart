@@ -41,7 +41,7 @@ class DartImportsSortStrategy extends SortStrategy {
   DartImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'dart:.*\';\$'),
+          regExp: RegExp('^import \'dart:.*;\$'),
         );
 }
 

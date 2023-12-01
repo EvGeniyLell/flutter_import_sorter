@@ -34,5 +34,9 @@ void main() {
     test('Code before all imports', () {
       testSampleData(sampleData5);
     });
+    test('Dart imports', () {
+      testSampleData(sampleData6);
+    });
+
   });
 }

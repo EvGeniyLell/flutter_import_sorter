@@ -1,4 +1,3 @@
-/// ignore_for_file: use_raw_strings
 // ignore_for_file: unnecessary_raw_strings
 
 const packageName = 'import_sorter_test';
@@ -163,7 +162,6 @@ void main(List<String> args) async {
 ''',
 );
 
-
 const sampleData5 = TestSampleData(
   source: r'''
   
@@ -236,6 +234,53 @@ void main(List<String> args) async {
   */
   final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
+}
+''',
+);
+
+const sampleData6 = TestSampleData(
+  source: r'''
+  
+import 'dart:ui' as ui;
+
+import 'package:import_sorter_test/src/common/ui/teg_formatted_text/teg_formatted_text.dart';
+import 'package:flutter/material.dart';
+
+import 'dart:async';
+import 'dart:math';
+
+import 'dart:io' as io;
+
+
+abstract class TegTextFormatter {
+  const TegTextFormatter();
+
+  TegTextFormatterResult call(
+      TegFormattedText original,
+      BuildContext context,
+      BoxConstraints constraints,
+      );
+}
+
+''',
+  result: r'''
+import 'dart:async';
+import 'dart:io' as io;
+import 'dart:math';
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+
+import 'package:import_sorter_test/src/common/ui/teg_formatted_text/teg_formatted_text.dart';
+
+abstract class TegTextFormatter {
+  const TegTextFormatter();
+
+  TegTextFormatterResult call(
+      TegFormattedText original,
+      BuildContext context,
+      BoxConstraints constraints,
+      );
 }
 ''',
 );
