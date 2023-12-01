@@ -1,19 +1,21 @@
 import 'package:flutter_import_sorter/sort_strategy.dart';
 
 class SortManager {
-  SortManager._({required this.strategies});
-
   factory SortManager({
     required String packageName,
   }) {
-    return SortManager._(strategies: [
-      SortStrategy.dartImports(),
-      SortStrategy.flutterImports(),
-      SortStrategy.packageImports(packageName),
-      SortStrategy.projectImports(packageName),
-      SortStrategy.parts(),
-    ]);
+    return SortManager._(
+      strategies: [
+        SortStrategy.dartImports(),
+        SortStrategy.flutterImports(),
+        SortStrategy.packageImports(packageName),
+        SortStrategy.projectImports(packageName),
+        SortStrategy.parts(),
+      ],
+    );
   }
+
+  SortManager._({required this.strategies});
 
   // final List<String> originalLines;
   final List<SortStrategy> strategies;
@@ -84,15 +86,15 @@ class SortManager {
     }
 
     // Convert to string
-    final result = resultLinesBlocks.reduce((value, element) {
-          if (element.isNotEmpty) {
-            value.add('');
-            value.addAll(element);
-          }
-          return value;
-        }).smartJoin() +
-        '\n';
-    final original = lines.join('\n') + '\n';
+    final result = '${resultLinesBlocks.reduce((value, element) {
+      if (element.isNotEmpty) {
+        value
+          ..add('')
+          ..addAll(element);
+      }
+      return value;
+    }).smartJoin()}\n';
+    final original = '${lines.join('\n')}\n';
 
     if (original == result) {
       return null;
@@ -125,7 +127,7 @@ extension _SortStrategyListExtension on List<SortStrategy> {
 extension _StringListExtension on List<String> {
   String smartJoin() {
     var canBeDouble = false;
-    for (var i = 0; i < this.length; i += 1) {
+    for (var i = 0; i < length; i += 1) {
       final s = this[i].trim();
       if (s == '') {
         if (canBeDouble) {
@@ -139,11 +141,11 @@ extension _StringListExtension on List<String> {
     }
     smartStartTrim();
     smartEndTrim();
-    return join('\n')+('\n');
+    return join('\n');
   }
 
-  smartStartTrim() {
-    for (var i = 0; i < this.length; i += 1) {
+  void smartStartTrim() {
+    for (var i = 0; i < length; i += 1) {
       final s = this[i].trim();
       if (s == '') {
         removeAt(i);
@@ -155,8 +157,8 @@ extension _StringListExtension on List<String> {
     return;
   }
 
-  smartEndTrim() {
-    for (var i = this.length - 1; i >= 0; i -= 1) {
+  void smartEndTrim() {
+    for (var i = length - 1; i >= 0; i -= 1) {
       final s = this[i].trim();
       if (s == '') {
         removeAt(i);
@@ -166,5 +168,4 @@ extension _StringListExtension on List<String> {
     }
     return;
   }
-
 }

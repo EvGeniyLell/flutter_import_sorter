@@ -1,6 +1,5 @@
-import 'dart:io';
+// ignore_for_file: avoid_escaping_inner_quotes
 
-///Strategy
 abstract class SortStrategy {
   SortStrategy({
     required this.comment,
@@ -28,7 +27,7 @@ abstract class SortStrategy {
   void clearList() => _list.clear();
 
   bool tryAdd(String string) {
-    if (regExp.hasMatch(string)) {
+    if (regExp.hasMatch(string.trim())) {
       _list.add(string);
       return true;
     }
@@ -42,7 +41,7 @@ class DartImportsSortStrategy extends SortStrategy {
   DartImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('import \'dart:.*\';'),
+          regExp: RegExp('^import \'dart:.*\';\$'),
         );
 }
 
@@ -52,7 +51,7 @@ class FlutterImportsSortStrategy extends SortStrategy {
   FlutterImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('import \'package:flutter/.*;'),
+          regExp: RegExp('^import \'package:flutter/.*;\$'),
         );
 }
 
@@ -62,7 +61,7 @@ class PackageImportsSortStrategy extends SortStrategy {
   PackageImportsSortStrategy(String excludeProjectName)
       : super(
           comment: defComment,
-          regExp: RegExp('import \'package:(?:(?!${excludeProjectName}).).*;'),
+          regExp: RegExp('^import \'package:(?:(?!$excludeProjectName).).*;\$'),
         );
 }
 
@@ -72,7 +71,7 @@ class ProjectImportsSortStrategy extends SortStrategy {
   ProjectImportsSortStrategy(String projectName)
       : super(
           comment: defComment,
-          regExp: RegExp('import \'package:${projectName}/.*;'),
+          regExp: RegExp('^import \'package:$projectName/.*;\$'),
         );
 
   final relative = ProjectRelativeImportsSortStrategy();
@@ -103,7 +102,7 @@ class ProjectRelativeImportsSortStrategy extends SortStrategy {
   ProjectRelativeImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('import \'.*;'),
+          regExp: RegExp('^import \'.*;\$'),
         );
 }
 
@@ -113,6 +112,6 @@ class PartsSortStrategy extends SortStrategy {
   PartsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('part \'.*;'),
+          regExp: RegExp('^part \'.*;\$'),
         );
 }

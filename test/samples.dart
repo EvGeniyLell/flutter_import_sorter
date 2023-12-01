@@ -1,3 +1,6 @@
+/// ignore_for_file: use_raw_strings
+// ignore_for_file: unnecessary_raw_strings
+
 const packageName = 'import_sorter_test';
 
 class TestSampleData {
@@ -9,7 +12,7 @@ class TestSampleData {
 
 /// No imports and no code
 const sampleData0 = TestSampleData(
-  source: '''
+  source: r'''
 
 
 
@@ -22,7 +25,7 @@ const sampleData0 = TestSampleData(
 
 /// Single code line
 const sampleData1 = TestSampleData(
-  source: '''
+  source: r'''
 enum HomeEvent { showInfo, showDiscover, showProfile }
 
 ''',
@@ -31,7 +34,7 @@ enum HomeEvent { showInfo, showDiscover, showProfile }
 
 /// No code, only imports
 const sampleData2 = TestSampleData(
-  source: '''
+  source: r'''
   
 import 'dart:io';
 
@@ -54,7 +57,7 @@ part 'alert_dto.freezed.dart';
 part 'alert_dto.g.dart';
 
 ''',
-  result: '''
+  result: r'''
 import 'dart:async';
 import 'dart:io';
 import 'dart:js';
@@ -69,13 +72,12 @@ import 'anotherFile.dart' as af;
 
 part 'alert_dto.freezed.dart';
 part 'alert_dto.g.dart';
-
 ''',
 );
 
 /// No imports
 const sampleData3 = TestSampleData(
-  source: '''
+  source: r'''
   
 /// Main
 void main(List<String> args) async {
@@ -88,16 +90,15 @@ void main(List<String> args) async {
   Package name is one factor used to identify project imports
   Dependencies/dev_dependencies names are used to identify package imports
   */
-  final pubspecYamlFile = File('\${currentPath}/pubspec.yaml');
+  final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
 }
-
 ''',
   result: null,
 );
 
 const sampleData4 = TestSampleData(
-  source: '''
+  source: r'''
 import 'dart:async';
 import 'anotherFile.dart' as af;
 import 'dart:io';
@@ -125,11 +126,11 @@ void main(List<String> args) async {
   Package name is one factor used to identify project imports
   Dependencies/dev_dependencies names are used to identify package imports
   */
-  final pubspecYamlFile = File('\${currentPath}/pubspec.yaml');
+  final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
 }
 ''',
-  result: '''
+  result: r'''
 import 'dart:async';
 import 'dart:io';
 import 'dart:js';
@@ -156,16 +157,15 @@ void main(List<String> args) async {
   Package name is one factor used to identify project imports
   Dependencies/dev_dependencies names are used to identify package imports
   */
-  final pubspecYamlFile = File('\${currentPath}/pubspec.yaml');
+  final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
 }
-
 ''',
 );
 
 
 const sampleData5 = TestSampleData(
-  source: '''
+  source: r'''
   
 library import_sorter;
 
@@ -199,11 +199,11 @@ void main(List<String> args) async {
   Package name is one factor used to identify project imports
   Dependencies/dev_dependencies names are used to identify package imports
   */
-  final pubspecYamlFile = File('\${currentPath}/pubspec.yaml');
+  final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
 }
 ''',
-  result: '''
+  result: r'''
 library import_sorter;
 
 import 'dart:async';
@@ -234,9 +234,8 @@ void main(List<String> args) async {
   Package name is one factor used to identify project imports
   Dependencies/dev_dependencies names are used to identify package imports
   */
-  final pubspecYamlFile = File('\${currentPath}/pubspec.yaml');
+  final pubspecYamlFile = File('${currentPath}/pubspec.yaml');
   final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
 }
-
 ''',
 );

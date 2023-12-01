@@ -1,6 +1,6 @@
 name: flutter_import_sorter
 description: Automatically organize your flutter imports
-version: 4.6.0
+version: 0.0.1+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
@@ -12,6 +12,11 @@ dependencies:
 
 dev_dependencies:
   test: ^1.24.9
+  teg_flutter_lints:
+    git:
+      url: git@github.com:transport-exchange-group/teg_flutter_lints
+      ref: main
+
 
 import_sorter:
   emojis: true
