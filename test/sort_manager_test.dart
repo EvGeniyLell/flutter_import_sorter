@@ -9,7 +9,7 @@ void main() {
     expect(
       sortManager.sort(
         lines: data.source.split('\n'),
-        noComments: true,
+        useComments: false,
       ),
       data.result,
     );

@@ -11,11 +11,10 @@ import 'package:flutter_import_sorter/sort_manager.dart';
 void main(List<String> args) {
   // Parsing arguments
   final parser = ArgParser();
-  parser.addFlag('ignore-config', negatable: false);
   parser.addFlag('help', abbr: 'h', negatable: false);
+  parser.addFlag('ignore-config', negatable: false);
   parser.addFlag('exit-if-changed', negatable: false);
-  parser.addFlag('include-part', negatable: false);
-  parser.addFlag('no-comments', negatable: false);
+  parser.addFlag('use-comments', negatable: false);
   final argResults = parser.parse(args).arguments;
   if (argResults.contains('-h') || argResults.contains('--help')) {
     local_args.outputHelp();
@@ -41,17 +40,17 @@ void main(List<String> args) {
   final pubspecLock = loadYaml(pubspecLockFile.readAsStringSync());
   dependencies.addAll(pubspecLock['packages'].keys);
 
-  var includePart = false;
-  var noComments = false;
+  var useComments = false;
   final ignored_files = [];
 
   // Reading from config in pubspec.yaml safely
   if (!argResults.contains('--ignore-config')) {
-    if (pubspecYaml.containsKey('import_sorter')) {
-      final config = pubspecYaml['import_sorter'];
-      if (config.containsKey('include-part'))
-        includePart = config['include-part'];
-      if (config.containsKey('comments')) noComments = !config['comments'];
+    if (pubspecYaml.containsKey('flutter_import_sorter')) {
+      final config = pubspecYaml['flutter_import_sorter'];
+
+      if (config.containsKey('comments')) {
+        useComments = config['comments'];
+      }
       if (config.containsKey('ignored_files')) {
         ignored_files.addAll(config['ignored_files']);
       }
@@ -59,8 +58,7 @@ void main(List<String> args) {
   }
 
   // Setting values from args
-  if (!includePart) includePart = argResults.contains('--include-part');
-  if (!noComments) noComments = argResults.contains('--no-comments');
+  if (!useComments) useComments = argResults.contains('--use-comments');
   final exitOnChange = argResults.contains('--exit-if-changed');
 
   // Getting all the dart files for the project
@@ -96,10 +94,9 @@ void main(List<String> args) {
       continue;
     }
 
-
     final sortResult = sortManager.sort(
       lines: file.readAsLinesSync(),
-      noComments: noComments,
+      useComments: useComments,
     );
 
     if (sortResult == null) {

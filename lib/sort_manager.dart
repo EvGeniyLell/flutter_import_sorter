@@ -21,7 +21,7 @@ class SortManager {
   /// Return null if not sorted
   String? sort({
     required List<String> lines,
-    bool noComments = false,
+    required bool useComments,
   }) {
     strategies.forEach((s) {
       s.clearList();
@@ -68,7 +68,7 @@ class SortManager {
       final strategyList = strategy.getList();
       if (strategyList.isNotEmpty) {
         final list = <String>[];
-        if (!noComments) {
+        if (useComments) {
           list.add(strategy.comment);
         }
         list.addAll(strategyList);
