@@ -1,4 +1,5 @@
-import 'package:flutter_import_sorter/sort_strategy.dart';
+import 'package:flutter_import/sorter/strategy.dart';
+
 
 class SortManager {
   factory SortManager({

@@ -2,6 +2,7 @@ import 'dart:io';
 
 void outputHelp() {
   stdout
+    ..write('\nIMPORT REVIEWER\n')
     ..write('\nFlags:')
     ..write(
       '\n  --help, -h         '
@@ -11,13 +12,6 @@ void outputHelp() {
       '\n  --ignore-config    '
       'Ignore configuration in pubspec.yaml (if there is any).',
     )
-    ..write(
-      '\n  --exit-if-changed  '
-      'Return an error if any file isn`t sorted. Good for CI.',
-    )
-    ..write(
-      '\n  --use-comments      '
-      'Don`t put any comments before the imports.\n',
-    );
+    ..write('\n');
   exit(0);
 }

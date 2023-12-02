@@ -1,4 +1,4 @@
-import 'package:flutter_import_sorter/sort_manager.dart';
+import 'package:flutter_import/sorter/manager.dart';
 import 'package:test/test.dart';
 
 import 'samples.dart';
