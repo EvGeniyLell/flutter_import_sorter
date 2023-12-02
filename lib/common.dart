@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
+
 import 'package:flutter_import_flow/sorter/files.dart' as files;
 
 class CommonMain {

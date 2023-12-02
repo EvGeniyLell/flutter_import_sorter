@@ -13,5 +13,4 @@ dependencies:
 dev_dependencies:
   test: ^1.24.9
 
-import_sorter:
-  emojis: true
+flutter_import_flow:
