@@ -284,3 +284,56 @@ abstract class TegTextFormatter {
 }
 ''',
 );
+
+const sampleData7 = TestSampleData(
+  source: r'''
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import 'package:here_sdk/core.dart' as here;
+import 'package:here_sdk/gestures.dart' as here;
+import 'package:here_sdk/mapview.dart' as here;
+
+import 'package:import_sorter_test/src/design_system/design_system.dart';
+import 'package:import_sorter_test/src/localizations.dart';
+import 'package:import_sorter_test/src/map/map.dart';
+import 'package:import_sorter_test/src/map/ui/widgets/load_route_button.dart';
+import 'package:import_sorter_test/src/map/utils/distance_info_extension.dart';
+import 'package:import_sorter_test/src/stops/stops.dart';
+
+import 'package:import_sorter_test/src/common/common.dart'
+    hide CoordinateMapperExtensions, CoordinateDtoMapperExtensions;
+
+part 'load_route_screen_components.dart';
+
+/// Screen where user can see alert route info.
+class LoadRouteScreen extends StatefulWidget {
+}
+
+''',
+  result: r'''
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import 'package:here_sdk/core.dart' as here;
+import 'package:here_sdk/gestures.dart' as here;
+import 'package:here_sdk/mapview.dart' as here;
+
+import 'package:import_sorter_test/src/common/common.dart'
+    hide CoordinateMapperExtensions, CoordinateDtoMapperExtensions;
+import 'package:import_sorter_test/src/design_system/design_system.dart';
+import 'package:import_sorter_test/src/localizations.dart';
+import 'package:import_sorter_test/src/map/map.dart';
+import 'package:import_sorter_test/src/map/ui/widgets/load_route_button.dart';
+import 'package:import_sorter_test/src/map/utils/distance_info_extension.dart';
+import 'package:import_sorter_test/src/stops/stops.dart';
+
+part 'load_route_screen_components.dart';
+
+/// Screen where user can see alert route info.
+class LoadRouteScreen extends StatefulWidget {
+}
+''',
+);

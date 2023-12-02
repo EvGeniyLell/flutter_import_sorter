@@ -1,6 +1,6 @@
 name: flutter_import_sorter
 description: Automatically organize your flutter imports
-version: 0.0.1+2
+version: 0.0.1+3
 
 environment:
   sdk: ">=3.0.3 <4.0.0"

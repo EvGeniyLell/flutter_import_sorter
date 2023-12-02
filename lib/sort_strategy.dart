@@ -41,7 +41,10 @@ class DartImportsSortStrategy extends SortStrategy {
   DartImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'dart:.*;\$'),
+          regExp: RegExp(
+            '^import \'dart:.*;\$',
+            dotAll: true,
+          ),
         );
 }
 
@@ -51,7 +54,10 @@ class FlutterImportsSortStrategy extends SortStrategy {
   FlutterImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'package:flutter/.*;\$'),
+          regExp: RegExp(
+            '^import \'package:flutter/.*;\$',
+            dotAll: true,
+          ),
         );
 }
 
@@ -61,7 +67,10 @@ class PackageImportsSortStrategy extends SortStrategy {
   PackageImportsSortStrategy(String excludeProjectName)
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'package:(?:(?!$excludeProjectName).).*;\$'),
+          regExp: RegExp(
+            '^import \'package:(?:(?!$excludeProjectName).).*;\$',
+            dotAll: true,
+          ),
         );
 }
 
@@ -71,7 +80,10 @@ class ProjectImportsSortStrategy extends SortStrategy {
   ProjectImportsSortStrategy(String projectName)
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'package:$projectName/.*;\$'),
+          regExp: RegExp(
+            '^import \'package:$projectName/.*;\$',
+            dotAll: true,
+          ),
         );
 
   final relative = ProjectRelativeImportsSortStrategy();
@@ -102,7 +114,10 @@ class ProjectRelativeImportsSortStrategy extends SortStrategy {
   ProjectRelativeImportsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('^import \'.*;\$'),
+          regExp: RegExp(
+            '^import \'.*;\$',
+            dotAll: true,
+          ),
         );
 }
 
@@ -112,6 +127,9 @@ class PartsSortStrategy extends SortStrategy {
   PartsSortStrategy()
       : super(
           comment: defComment,
-          regExp: RegExp('^part \'.*;\$'),
+          regExp: RegExp(
+            '^part \'.*;\$',
+            dotAll: true,
+          ),
         );
 }

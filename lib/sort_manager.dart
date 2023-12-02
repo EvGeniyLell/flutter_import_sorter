@@ -17,14 +17,15 @@ class SortManager {
 
   SortManager._({required this.strategies});
 
-  // final List<String> originalLines;
   final List<SortStrategy> strategies;
+  String _smartLine = '';
 
   /// Return null if not sorted
   String? sort({
     required List<String> lines,
     required bool useComments,
   }) {
+    _smartLine = '';
     strategies.forEach((s) {
       s.clearList();
     });
@@ -33,13 +34,26 @@ class SortManager {
     final afterLines = <String>[];
     var isMultiLineString = false;
 
+    void remove(int count) {
+      if (strategies.everyListIsEmpty) {
+        for (var i = 0; i < count; i += 1) {
+          beforeLines.removeLast();
+        }
+      } else {
+        for (var i = 0; i < count; i += 1) {
+          afterLines.removeLast();
+        }
+      }
+    }
+
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
 
       if (_isMultiline(line)) {
         isMultiLineString = !isMultiLineString;
       }
-      if (!isMultiLineString && !strategies.tryAdd(line)) {
+
+      if ((!isMultiLineString && !_tryAdd(line, remove)) || isMultiLineString) {
         if (strategies.everyListIsEmpty) {
           beforeLines.add(line);
         } else {
@@ -100,6 +114,30 @@ class SortManager {
       return null;
     }
     return result;
+  }
+
+  bool _tryAdd(String string, void Function(int count) callback) {
+    final result = strategies.tryAdd(string);
+    if (result) {
+      _smartLine = '';
+      return true;
+    }
+    if (_smartLine.isEmpty) {
+      if (string.startsWith('import ')) {
+        _smartLine = string;
+      }
+    } else {
+      _smartLine += '\n$string';
+      if (string.endsWith(';')) {
+        final result = strategies.tryAdd(_smartLine);
+        if (result) {
+          callback(_smartLine.split('\n').length);
+        }
+        _smartLine = '';
+        return result;
+      }
+    }
+    return false;
   }
 
   bool _isMultiline(String string) {

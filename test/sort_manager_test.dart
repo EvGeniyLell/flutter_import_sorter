@@ -37,6 +37,9 @@ void main() {
     test('Dart imports', () {
       testSampleData(sampleData6);
     });
+    test('Dart imports', () {
+      testSampleData(sampleData7);
+    });
 
   });
 }
