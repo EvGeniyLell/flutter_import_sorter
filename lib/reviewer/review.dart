@@ -30,7 +30,7 @@ int reviewImports(
     void Function(String line, int index, String importPath) callback,
   ) {
     final extractAppImport =
-        RegExp("'^\\s*import 'package:$packageName/$featuresPath/(.*)'\\s*;");
+        RegExp("^\\s*import 'package:$packageName/$featuresPath/(.*)'\\s*;");
     for (int i = 0; i < lines.length; i += 1) {
       final line = lines[i];
 
@@ -82,9 +82,10 @@ int reviewImports(
   /// like: import 'package:app/src/feature/dtos/dtos.dart';
   bool isFeatureDtosImport(String appImport) {
     final appImportMatch =
-        RegExp(r'^(.*?)/dtos/dtos\.dart$').firstMatch(appImport);
+        RegExp(r'^(.*)/(.*?)/(.*?)\.dart$').firstMatch(appImport);
+
     if (appImportMatch != null) {
-      return true;
+      return (appImportMatch.group(2) == appImportMatch.group(3));
     }
     return false;
   }
