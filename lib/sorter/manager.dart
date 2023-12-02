@@ -34,23 +34,24 @@ class SortManager {
     final afterLines = <String>[];
     var isMultiLineString = false;
 
-    void remove(int count) {
-      if (strategies.everyListIsEmpty) {
-        for (var i = 0; i < count; i += 1) {
-          beforeLines.removeLast();
-        }
-      } else {
-        for (var i = 0; i < count; i += 1) {
-          afterLines.removeLast();
-        }
-      }
-    }
-
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
 
       if (_isMultiline(line)) {
         isMultiLineString = !isMultiLineString;
+      }
+
+      final wasEmpty = strategies.everyListIsEmpty;
+      void remove(int count) {
+        if (wasEmpty) {
+          for (var i = 1; i < count; i += 1) {
+            beforeLines.removeLast();
+          }
+        } else {
+          for (var i = 1; i < count; i += 1) {
+            afterLines.removeLast();
+          }
+        }
       }
 
       if ((!isMultiLineString && !_tryAdd(line, remove)) || isMultiLineString) {

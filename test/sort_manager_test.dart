@@ -40,6 +40,8 @@ void main() {
     test('Dart imports', () {
       testSampleData(sampleData7);
     });
-
+    test('First multiline import', () {
+      testSampleData(sampleData8);
+    });
   });
 }
