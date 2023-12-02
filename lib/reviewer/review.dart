@@ -9,7 +9,7 @@ int reviewImports(
   String filePath,
   List<String> lines, {
   required String appDirName,
-  String featuresPath = 'src',
+  required String featuresPath,
 }) {
   void detectFeature(
     void Function(String featureName, String featureExtension) callback,

@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:colorize/colorize.dart';
-import 'package:flutter_import/common.dart';
-import 'package:flutter_import/reviewer/output_help.dart';
-import 'package:flutter_import/reviewer/review.dart' as review;
+import 'package:flutter_import_flow/common.dart';
+import 'package:flutter_import_flow/reviewer/output_help.dart';
+import 'package:flutter_import_flow/reviewer/review.dart' as review;
 
 void main(List<String> args) {
+  var featuresPath = 'src';
   final ignoredFiles = [];
 
   final c = CommonMain()
@@ -19,9 +20,12 @@ void main(List<String> args) {
       outputHelp: outputHelp,
     )
     ..readConfig(
-      configName: 'flutter_import_sorter',
+      configName: 'flutter_import_reviewer',
       configRule: (config, argResults) {
         if (config != null) {
+          if (config.containsKey('features_path')) {
+            featuresPath = config['features_path'];
+          }
           if (config.containsKey('ignored_files')) {
             ignoredFiles.addAll(config['ignored_files']);
           }
@@ -42,6 +46,7 @@ void main(List<String> args) {
         file.path,
         file.readAsLinesSync(),
         appDirName: c.currentPath.split('/').last,
+        featuresPath: featuresPath,
       );
     },
   );
