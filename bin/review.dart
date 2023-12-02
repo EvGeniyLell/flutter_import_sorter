@@ -49,6 +49,7 @@ void main(List<String> args) {
         appDirName: c.currentPath.split('/').last,
         featuresPath: featuresPath,
       );
+      return false;
     },
   );
 

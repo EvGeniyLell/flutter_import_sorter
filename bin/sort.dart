@@ -53,7 +53,7 @@ void main(List<String> args) {
       );
 
       if (sortResult == null) {
-        return;
+        return false;
       }
 
       if (exitOnChange) {
@@ -64,6 +64,7 @@ void main(List<String> args) {
       }
 
       file.writeAsStringSync(sortResult);
+      return true;
     },
   );
 

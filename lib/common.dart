@@ -65,6 +65,7 @@ class CommonMain {
   }
 
   late final Map<String, File> dartFiles;
+
   void prepareFiles({
     required List<dynamic> ignoredFiles,
   }) {
@@ -89,20 +90,19 @@ class CommonMain {
   }
 
   List<String> filesProcess({
-    required void Function(File) onFile,
-}) {
-    final sortedFiles = <String>[];
+    required bool Function(File) onFile,
+  }) {
+    final changedFiles = <String>[];
     for (final filePath in dartFiles.keys) {
       final file = dartFiles[filePath];
       if (file == null) {
         continue;
       }
-
-      onFile(file);
-
-      sortedFiles.add(filePath);
+      if (onFile(file)) {
+        changedFiles.add(filePath);
+      }
     }
     stopwatch.stop();
-    return sortedFiles;
+    return changedFiles;
   }
 }
