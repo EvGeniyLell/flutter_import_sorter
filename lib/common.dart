@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:flutter_import_flow/sorter/files.dart' as files;
+import 'package:flutter_import_flow/files.dart' as files;
 
 class CommonMain {
   CommonMain();
@@ -22,6 +22,7 @@ class CommonMain {
     argResults = parser.parse(args).arguments;
     if (argResults.contains('-h') || argResults.contains('--help')) {
       outputHelp();
+      exit(0);
     }
   }
 
@@ -29,11 +30,7 @@ class CommonMain {
   late final String packageName;
   late final Stopwatch stopwatch;
 
-  // bool useComments = false;
-  // bool exitOnChange = false;
   final dependencies = [];
-
-  //final ignoredFiles = [];
 
   void readConfig({
     required String configName,
@@ -56,9 +53,6 @@ class CommonMain {
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
       configRule(config, argResults);
-      // if (config.containsKey('ignored_files')) {
-      //   ignoredFiles.addAll(config['ignored_files']);
-      // }
     } else {
       configRule(null, argResults);
     }
@@ -68,8 +62,9 @@ class CommonMain {
 
   void prepareFiles({
     required List<dynamic> ignoredFiles,
+    required List<String> includedContent,
   }) {
-    dartFiles = files.dartFiles(currentPath, args);
+    dartFiles = files.dartFiles(currentPath, args, includedContent);
     final containsFlutter = dependencies.contains('flutter');
     final containsRegistrant = dartFiles
         .containsKey('$currentPath/lib/generated_plugin_registrant.dart');

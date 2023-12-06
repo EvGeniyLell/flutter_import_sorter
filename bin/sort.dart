@@ -4,12 +4,19 @@ import 'package:colorize/colorize.dart';
 
 import 'package:flutter_import_flow/common.dart';
 import 'package:flutter_import_flow/sorter/manager.dart';
-import 'package:flutter_import_flow/sorter/output_help.dart';
 
 void main(List<String> args) {
   var useComments = false;
   var exitOnChange = false;
   final ignoredFiles = [];
+  final includedContent = [
+    'lib',
+    'bin',
+    'test',
+    'tests',
+    'test_driver',
+    'integration_test',
+  ];
 
   final c = CommonMain()
     ..argParser(
@@ -39,7 +46,10 @@ void main(List<String> args) {
         }
       },
     )
-    ..prepareFiles(ignoredFiles: ignoredFiles);
+    ..prepareFiles(
+      ignoredFiles: ignoredFiles,
+      includedContent: includedContent,
+    );
 
   final sortManager = SortManager(packageName: c.packageName);
   final success = Colorize('✔')..green();
@@ -93,4 +103,27 @@ void main(List<String> args) {
     '${c.stopwatch.elapsed.inSeconds}.'
     '${c.stopwatch.elapsedMilliseconds} seconds\n',
   );
+}
+
+void outputHelp() {
+  stdout
+    ..write('\nIMPORT SORTER\n')
+    ..write('\nFlags:')
+    ..write(
+      '\n  --help, -h         '
+          'Display this help command.',
+    )
+    ..write(
+      '\n  --ignore-config    '
+          'Ignore configuration in pubspec.yaml (if there is any).',
+    )
+    ..write(
+      '\n  --exit-if-changed  '
+          'Return an error if any file isn`t sorted. Good for CI.',
+    )
+    ..write(
+      '\n  --use-comments      '
+          'Don`t put any comments before the imports.\n',
+    );
+  exit(0);
 }

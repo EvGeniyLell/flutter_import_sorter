@@ -1,11 +1,17 @@
 import 'dart:io';
 
 /// Get all the dart files for the project and the contents
-Map<String, File> dartFiles(String currentPath, List<String> args) {
+Map<String, File> dartFiles(
+  String currentPath,
+  List<String> args,
+  List<String> includedContent,
+) {
   final dartFiles = <String, File>{};
-  final allContents = [
-    ..._readDir(currentPath, 'lib'),
-  ];
+  final allContents = [];
+
+  includedContent.forEach((element) {
+    allContents.addAll(_readDir(currentPath, element));
+  });
 
   for (final fileOrDir in allContents) {
     if (fileOrDir is File && fileOrDir.path.endsWith('.dart')) {

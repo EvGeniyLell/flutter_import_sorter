@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:colorize/colorize.dart';
 
 import 'package:flutter_import_flow/common.dart';
-import 'package:flutter_import_flow/reviewer/output_help.dart';
 import 'package:flutter_import_flow/reviewer/review.dart' as review;
+
+
 
 void main(List<String> args) {
   var featuresPath = 'src';
   final ignoredFiles = [];
+  final includedContent = [
+    'lib',
+  ];
 
   final c = CommonMain()
     ..argParser(
@@ -33,7 +37,10 @@ void main(List<String> args) {
         }
       },
     )
-    ..prepareFiles(ignoredFiles: ignoredFiles);
+    ..prepareFiles(
+      ignoredFiles: ignoredFiles,
+      includedContent: includedContent,
+    );
 
   stdout.write(
     '┏━━ Review ${c.dartFiles.length} dart files\n',
@@ -62,4 +69,19 @@ void main(List<String> args) {
     '${c.stopwatch.elapsed.inSeconds}.'
     '${c.stopwatch.elapsedMilliseconds} seconds',
   );
+}
+
+void outputHelp() {
+  stdout
+    ..write('\nIMPORT REVIEWER\n')
+    ..write('\nFlags:')
+    ..write(
+      '\n  --help, -h         '
+          'Display this help command.',
+    )
+    ..write(
+      '\n  --ignore-config    '
+          'Ignore configuration in pubspec.yaml (if there is any).',
+    )
+    ..write('\n');
 }
