@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:colorize/colorize.dart';
 
-import 'package:flutter_import_flow/common.dart';
-import 'package:flutter_import_flow/sorter/manager.dart';
+import 'package:flutter_import_flow/src/common.dart';
+import 'package:flutter_import_flow/src/sort_manager.dart';
 
 void main(List<String> args) {
   var useComments = false;
   var exitOnChange = false;
-  final ignoredFiles = [];
+  final ignoredFiles = <String>[];
   final includedContent = [
     'lib',
     'bin',
@@ -21,25 +21,16 @@ void main(List<String> args) {
   final c = CommonMain()
     ..argParser(
       args: args,
-      parserRule: (parser) {
-        parser
-          ..addFlag('help', abbr: 'h', negatable: false)
-          ..addFlag('ignore-config', negatable: false)
-          ..addFlag('exit-if-changed', negatable: false)
-          ..addFlag('use-comments', negatable: false);
-      },
-      outputHelp: outputHelp,
+      parserRule: _parseArgs,
+      onHelp: _outputHelp,
     )
     ..readConfig(
       configName: 'flutter_import_sorter',
       configRule: (config, argResults) {
         if (config != null) {
-          if (config.containsKey('comments')) {
-            useComments = config['comments'];
-          }
-          if (config.containsKey('ignored_files')) {
-            ignoredFiles.addAll(config['ignored_files']);
-          }
+          config
+            ..readIn<bool>('comments', (v) => useComments = v)
+            ..readIn('ignored_files', ignoredFiles.addAll);
         } else {
           useComments = argResults.contains('--use-comments');
           exitOnChange = argResults.contains('--exit-if-changed');
@@ -105,25 +96,33 @@ void main(List<String> args) {
   );
 }
 
-void outputHelp() {
+void _parseArgs(ArgParser parser) {
+  parser
+    ..addFlag('help', abbr: 'h', negatable: false)
+    ..addFlag('ignore-config', negatable: false)
+    ..addFlag('exit-if-changed', negatable: false)
+    ..addFlag('use-comments', negatable: false);
+}
+
+void _outputHelp() {
   stdout
     ..write('\nIMPORT SORTER\n')
     ..write('\nFlags:')
     ..write(
       '\n  --help, -h         '
-          'Display this help command.',
+      'Display this help command.',
     )
     ..write(
       '\n  --ignore-config    '
-          'Ignore configuration in pubspec.yaml (if there is any).',
+      'Ignore configuration in pubspec.yaml (if there is any).',
     )
     ..write(
       '\n  --exit-if-changed  '
-          'Return an error if any file isn`t sorted. Good for CI.',
+      'Return an error if any file isn`t sorted. Good for CI.',
     )
     ..write(
       '\n  --use-comments      '
-          'Don`t put any comments before the imports.\n',
+      'Don`t put any comments before the imports.\n',
     );
   exit(0);
 }

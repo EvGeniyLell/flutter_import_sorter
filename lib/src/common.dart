@@ -3,7 +3,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:flutter_import_flow/files.dart' as files;
+import 'package:flutter_import_flow/src/files.dart' as files;
+
+export 'package:args/args.dart';
+
+typedef YamlMap = Map<String, Object>;
 
 class CommonMain {
   CommonMain();
@@ -14,14 +18,14 @@ class CommonMain {
   void argParser({
     required List<String> args,
     required void Function(ArgParser) parserRule,
-    required void Function() outputHelp,
+    required void Function() onHelp,
   }) {
     this.args = args;
     final parser = ArgParser();
     parserRule(parser);
     argResults = parser.parse(args).arguments;
     if (argResults.contains('-h') || argResults.contains('--help')) {
-      outputHelp();
+      onHelp();
       exit(0);
     }
   }
@@ -34,7 +38,7 @@ class CommonMain {
 
   void readConfig({
     required String configName,
-    required void Function(dynamic, List<String>) configRule,
+    required void Function(YamlMap?, List<String>) configRule,
   }) {
     currentPath = Directory.current.path;
     final pubspecYamlFile = File('$currentPath/pubspec.yaml');
@@ -52,16 +56,19 @@ class CommonMain {
     if (!argResults.contains('--ignore-config') &&
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
-      configRule(config, argResults);
-    } else {
-      configRule(null, argResults);
+      print('### $config');
+      if (config is YamlMap) {
+        configRule(config, argResults);
+        return;
+      }
     }
+    configRule(null, argResults);
   }
 
   late final Map<String, File> dartFiles;
 
   void prepareFiles({
-    required List<dynamic> ignoredFiles,
+    required List<String> ignoredFiles,
     required List<String> includedContent,
   }) {
     dartFiles = files.dartFiles(currentPath, args, includedContent);
@@ -99,5 +106,14 @@ class CommonMain {
     }
     stopwatch.stop();
     return changedFiles;
+  }
+}
+
+extension YamlMapExtension on YamlMap {
+  void readIn<T extends Object>(String parameter, void Function(T) setter) {
+    final value = this[parameter];
+    if (value != null && value is T) {
+      setter(value);
+    }
   }
 }
