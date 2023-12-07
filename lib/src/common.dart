@@ -112,21 +112,12 @@ class CommonMain {
 
 extension YamlMapExtension on YamlMap {
   void readList<T extends Object>(String key, void Function(List<T>) setter) {
-    final value = this[key];
+    final value = _readList<T>(this[key]);
     print('### readList<$T> $value(${value.runtimeType})');
-
-    if (value != null && value is YamlList) {
-      final Iterable<T> r = value.nodes.map((e) {
-        print('### e $e <${e.runtimeType}>)');
-        if (e is T) {
-          return e as T;
-        }
-        return null;
-      }).nonNulls;
-      setter(r.toList());
+    if (value != null) {
+      setter(value);
       return;
     }
-
     assert(
       false,
       'Key $key has $value with type ${value.runtimeType}'
@@ -135,20 +126,50 @@ extension YamlMapExtension on YamlMap {
   }
 
   void readScalar<T extends Object>(String key, void Function(T) setter) {
-    final value = this[key];
-    print('### readScalar<$T> $value(${value.runtimeType})');
-
-    if (value != null && value is YamlScalar) {
-      print('### YamlScalar $value');
-      if (value is T) {
-        setter(value as T);
-        return;
-      }
+    final value = _readScalar<T>(this[key]);
+    if (value != null) {
+      setter(value);
+      return;
     }
     assert(
       false,
       'Key $key has $value with type ${value.runtimeType}'
       ' but expected $T type',
     );
+  }
+
+  List<T>? _readList<T extends Object>(dynamic value) {
+    if (value != null) {
+      if (value is YamlList) {
+        return value.nodes
+            .map<T?>((node) {
+              final v = _readScalar<T>(node);
+              print('### e $v <${v.runtimeType}>)');
+              if (v != null) {
+                return v;
+              }
+              return null;
+            })
+            .nonNulls
+            .toList();
+      }
+    }
+    return null;
+  }
+
+  T? _readScalar<T>(dynamic value) {
+    print('### _readScalar $value (${value.runtimeType})');
+    if (value != null) {
+      if (value != null && value is YamlScalar) {
+        if (value.value is T) {
+          return value.value as T;
+        }
+      }
+      if (value != null && value is T) {
+        return value;
+      }
+    }
+    print('### _readScalar return null');
+    return null;
   }
 }
