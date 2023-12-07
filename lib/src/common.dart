@@ -126,6 +126,7 @@ extension YamlMapExtension on YamlMap {
       setter(r.toList());
       return;
     }
+
     assert(
       false,
       'Key $key has $value with type ${value.runtimeType}'
