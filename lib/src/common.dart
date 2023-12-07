@@ -117,6 +117,7 @@ extension YamlMapExtension on YamlMap {
 
     final value = this[parameter];
     print('### readIn<$T>($parameter) = $value');
+    print('### $value is $T ? (${value is T})');
     if (value != null && value is T) {
       print('### readIn sett !');
       setter(value);
