@@ -13,10 +13,9 @@ int reviewImports(
   required String appDirName,
   required String featuresPath,
 }) {
-
   void detectFeature(
-      /// where
-      /// myApp/lib/src/[featureName]/[featureExtension]
+    /// where
+    /// myApp/lib/src/[featureName]/[featureExtension]
     void Function(String featureName, String featureExtension) callback,
   ) {
     final matchFilePath =
@@ -32,13 +31,12 @@ int reviewImports(
   }
 
   void detectAppImport(
-      /// where
-      ///  [line], [index] - code line with index
-      ///  [importPath] - this last part of import package path
-      ///    import 'package:packageName/featuresPath/[importPath]'
+    /// where
+    ///  [line], [index] - code line with index
+    ///  [importPath] - this last part of import package path
+    ///    import 'package:packageName/featuresPath/[importPath]'
     void Function(String line, int index, String importPath) callback,
   ) {
-
     final extractAppImport =
         RegExp("^\\s*import 'package:$packageName/$featuresPath/(.*)'\\s*;");
     for (int i = 0; i < lines.length; i += 1) {
@@ -57,11 +55,11 @@ int reviewImports(
   }
 
   void detectAppExport(
-      /// where
-      ///  [line], [index] - code line with index
-      ///  [exportPath] - this last part of export path
-      ///    export '[exportPath]'
-      void Function(String line, int index, String exportPath) callback,
+    /// where
+    ///  [line], [index] - code line with index
+    ///  [exportPath] - this last part of export path
+    ///    export '[exportPath]'
+    void Function(String line, int index, String exportPath) callback,
   ) {
     final extractAppImport = RegExp(r"^\s*export '(.*)'\s*;");
     for (int i = 0; i < lines.length; i += 1) {

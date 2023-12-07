@@ -22,11 +22,10 @@ abstract class ExportSortStrategy extends SortStrategy {
   factory ExportSortStrategy.flutter() = FlutterExportsSortStrategy;
 
   factory ExportSortStrategy.package(String excludeProjectName) =
-  PackageExportsSortStrategy;
+      PackageExportsSortStrategy;
 
   factory ExportSortStrategy.project(String projectName) =
-  ProjectExportsSortStrategy;
-
+      ProjectExportsSortStrategy;
 }
 
 class DartExportsSortStrategy extends ExportSortStrategy {
@@ -34,12 +33,12 @@ class DartExportsSortStrategy extends ExportSortStrategy {
 
   DartExportsSortStrategy()
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'dart:.*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'dart:.*;\$',
+            dotAll: true,
+          ),
+        );
 }
 
 class FlutterExportsSortStrategy extends ExportSortStrategy {
@@ -47,12 +46,12 @@ class FlutterExportsSortStrategy extends ExportSortStrategy {
 
   FlutterExportsSortStrategy()
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'package:flutter/.*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'package:flutter/.*;\$',
+            dotAll: true,
+          ),
+        );
 }
 
 class PackageExportsSortStrategy extends ExportSortStrategy {
@@ -60,12 +59,12 @@ class PackageExportsSortStrategy extends ExportSortStrategy {
 
   PackageExportsSortStrategy(String excludeProjectName)
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'package:(?:(?!$excludeProjectName).).*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'package:(?:(?!$excludeProjectName).).*;\$',
+            dotAll: true,
+          ),
+        );
 }
 
 class ProjectExportsSortStrategy extends ExportSortStrategy {
@@ -73,18 +72,18 @@ class ProjectExportsSortStrategy extends ExportSortStrategy {
 
   ProjectExportsSortStrategy(String projectName)
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'package:$projectName/.*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'package:$projectName/.*;\$',
+            dotAll: true,
+          ),
+        );
 
   final relative = ProjectRelativeExportsSortStrategy();
 
   @override
   List<String> getList() {
-    return [...super.getList(), ...relative.getList()];
+    return [...super.getList(), '', ...relative.getList()];
   }
 
   @override
@@ -107,12 +106,10 @@ class ProjectRelativeExportsSortStrategy extends ExportSortStrategy {
 
   ProjectRelativeExportsSortStrategy()
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'.*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'.*;\$',
+            dotAll: true,
+          ),
+        );
 }
-
-

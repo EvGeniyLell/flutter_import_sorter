@@ -11,7 +11,6 @@ abstract class PartSortStrategy extends SortStrategy {
   factory PartSortStrategy.parts() = PartsSortStrategy;
 }
 
-
 class PartsSortStrategy extends PartSortStrategy {
   static String defComment = '// Parts:';
 

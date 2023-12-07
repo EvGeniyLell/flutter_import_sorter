@@ -87,7 +87,7 @@ class ProjectImportsSortStrategy extends ImportSortStrategy {
 
   @override
   List<String> getList() {
-    return [...super.getList(), ...relative.getList()];
+    return [...super.getList(), '', ...relative.getList()];
   }
 
   @override
@@ -113,32 +113,6 @@ class ProjectRelativeImportsSortStrategy extends ImportSortStrategy {
           comment: defComment,
           regExp: RegExp(
             '^import \'.*;\$',
-            dotAll: true,
-          ),
-        );
-}
-
-class ProjectRelativeExportsSortStrategy extends ImportSortStrategy {
-  static String defComment = '// Project relative export:';
-
-  ProjectRelativeExportsSortStrategy()
-      : super(
-          comment: defComment,
-          regExp: RegExp(
-            '^export \'.*;\$',
-            dotAll: true,
-          ),
-        );
-}
-
-class PartsSortStrategy extends ImportSortStrategy {
-  static String defComment = '// Parts:';
-
-  PartsSortStrategy()
-      : super(
-          comment: defComment,
-          regExp: RegExp(
-            '^part \'.*;\$',
             dotAll: true,
           ),
         );
