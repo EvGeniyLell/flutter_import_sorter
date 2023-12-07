@@ -45,7 +45,6 @@ class CommonMain {
 
     // Getting all dependencies and project package name
     packageName = pubspecYaml['name'].toString();
-    print('### pubspecYaml:\n$pubspecYaml');
 
     stopwatch = Stopwatch()..start();
 
@@ -74,7 +73,6 @@ class CommonMain {
     print('### ignoredFiles:\n$ignoredFiles');
     print('### includedContent:\n$includedContent');
     dartFiles = files.dartFiles(currentPath, args, includedContent);
-    print('### dartFiles:\n$dartFiles');
     final containsFlutter = dependencies.contains('flutter');
     final containsRegistrant = dartFiles
         .containsKey('$currentPath/lib/generated_plugin_registrant.dart');
@@ -115,8 +113,11 @@ class CommonMain {
 
 extension YamlMapExtension on YamlMap {
   void readIn<T extends Object>(String parameter, void Function(T) setter) {
+
     final value = this[parameter];
+    print('### readIn<$T>($parameter) = $value');
     if (value != null && value is T) {
+      print('### readIn sett !');
       setter(value);
     }
   }
