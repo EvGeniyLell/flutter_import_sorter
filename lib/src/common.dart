@@ -56,6 +56,12 @@ class CommonMain {
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
       print('### config:\n$config (${config.runtimeType})');
+      if (config is Map<String, Object>) {
+        print('### config: 1');
+      }
+      if (config is Map<String, Object?>) {
+        print('### config: 2');
+      }
       if (config is YamlMap) {
         print('### config: is yaml)');
         configRule(config, argResults);
