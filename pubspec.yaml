@@ -1,6 +1,6 @@
 name: flutter_import_flow
 description: Automatically organize your flutter imports
-version: 0.0.1+6
+version: 0.0.1+7
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
