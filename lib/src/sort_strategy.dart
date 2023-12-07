@@ -16,6 +16,8 @@ abstract class SortStrategy {
   factory SortStrategy.projectImports(String projectName) =
       ProjectImportsSortStrategy;
 
+  factory SortStrategy.exports() = ExportsSortStrategy;
+
   factory SortStrategy.parts() = PartsSortStrategy;
 
   final String comment;
@@ -119,6 +121,19 @@ class ProjectRelativeImportsSortStrategy extends SortStrategy {
             dotAll: true,
           ),
         );
+}
+
+class ExportsSortStrategy extends SortStrategy {
+  static String defComment = '// Export:';
+
+  ExportsSortStrategy()
+      : super(
+    comment: defComment,
+    regExp: RegExp(
+      '^export \'.*;\$',
+      dotAll: true,
+    ),
+  );
 }
 
 class PartsSortStrategy extends SortStrategy {

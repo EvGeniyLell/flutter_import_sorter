@@ -1,5 +1,7 @@
 import 'dart:io';
 
+// ignore_for_file: comment_references
+
 /// Reviewing the imports
 /// where:
 /// [lines] - all lines of file.
@@ -11,7 +13,10 @@ int reviewImports(
   required String appDirName,
   required String featuresPath,
 }) {
+
   void detectFeature(
+      /// where
+      /// myApp/lib/src/[featureName]/[featureExtension]
     void Function(String featureName, String featureExtension) callback,
   ) {
     final matchFilePath =
@@ -27,8 +32,13 @@ int reviewImports(
   }
 
   void detectAppImport(
+      /// where
+      ///  [line], [index] - code line with index
+      ///  [importPath] - this last part of import package path
+      ///    import 'package:packageName/featuresPath/[importPath]'
     void Function(String line, int index, String importPath) callback,
   ) {
+
     final extractAppImport =
         RegExp("^\\s*import 'package:$packageName/$featuresPath/(.*)'\\s*;");
     for (int i = 0; i < lines.length; i += 1) {
@@ -47,7 +57,11 @@ int reviewImports(
   }
 
   void detectAppExport(
-    void Function(String line, int index, String exportPath) callback,
+      /// where
+      ///  [line], [index] - code line with index
+      ///  [exportPath] - this last part of export path
+      ///    export '[exportPath]'
+      void Function(String line, int index, String exportPath) callback,
   ) {
     final extractAppImport = RegExp(r"^\s*export '(.*)'\s*;");
     for (int i = 0; i < lines.length; i += 1) {
@@ -60,6 +74,7 @@ int reviewImports(
   }
 
   /// like: import 'package:app/src/feature.dart';
+  /// where [appImport] - feature.dart
   bool isShortFeatureImport(String appImport) {
     final appImportMatch = RegExp(r'^([^/]*)\.dart$').firstMatch(appImport);
     if (appImportMatch != null) {
@@ -69,6 +84,7 @@ int reviewImports(
   }
 
   /// like: import 'package:app/src/featureA/featureA.dart';
+  /// where [appImport] - featureA/featureA.dart
   bool isFeatureImport(String appImport) {
     final appImportMatch = RegExp(r'^(.*?)/(.*)\.dart$').firstMatch(appImport);
     if (appImportMatch != null) {
@@ -80,6 +96,7 @@ int reviewImports(
   }
 
   /// like: import 'package:app/src/feature/dtos/dtos.dart';
+  /// where [appImport] - feature/dtos/dtos.dart
   bool isFeatureDtosImport(String appImport) {
     final appImportMatch =
         RegExp(r'^(.*)/(.*?)/(.*?)\.dart$').firstMatch(appImport);

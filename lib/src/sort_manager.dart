@@ -1,4 +1,4 @@
-import 'package:flutter_import_flow/sorter/strategy.dart';
+import 'package:flutter_import_flow/src/sort_strategy.dart';
 
 class SortManager {
   factory SortManager({
@@ -10,6 +10,7 @@ class SortManager {
         SortStrategy.flutterImports(),
         SortStrategy.packageImports(packageName),
         SortStrategy.projectImports(packageName),
+        SortStrategy.exports(),
         SortStrategy.parts(),
       ],
     );
