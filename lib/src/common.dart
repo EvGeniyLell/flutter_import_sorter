@@ -6,7 +6,7 @@ import 'package:yaml/yaml.dart';
 
 export 'package:args/args.dart';
 
-typedef YamlMap = Map<String, Object>;
+typedef YamlMap = Map<Object?, Object?>;
 
 class CommonMain {
   CommonMain();
@@ -56,26 +56,6 @@ class CommonMain {
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
       print('### config:\n$config (${config.runtimeType})');
-      if (config is Map<String, Object>) {
-        print('### config: 1');
-      }
-      if (config is Map<String, Object?>) {
-        print('### config: 2');
-      }
-      if (config is Map<Object, Object?>) {
-        print('### config: 3');
-      }
-      if (config is Map<Object?, Object?>) {
-        print('### config: 4');
-      }
-      if (config is Map<String, dynamic>) {
-        print('### config: 5');
-      }
-      if (config is Map<dynamic, dynamic>) {
-        print('### config: 6');
-      }
-
-
       if (config is YamlMap) {
         print('### config: is yaml)');
         configRule(config, argResults);
