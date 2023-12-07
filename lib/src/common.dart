@@ -62,6 +62,20 @@ class CommonMain {
       if (config is Map<String, Object?>) {
         print('### config: 2');
       }
+      if (config is Map<Object, Object?>) {
+        print('### config: 3');
+      }
+      if (config is Map<Object?, Object?>) {
+        print('### config: 4');
+      }
+      if (config is Map<String, dynamic>) {
+        print('### config: 5');
+      }
+      if (config is Map<dynamic, dynamic>) {
+        print('### config: 6');
+      }
+
+
       if (config is YamlMap) {
         print('### config: is yaml)');
         configRule(config, argResults);
