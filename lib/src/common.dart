@@ -119,11 +119,28 @@ extension YamlMapExtension on YamlMap {
     print('### readIn<$T>($parameter) = $value');
     print('### $value (${value.runtimeType}) is $T ? (${value is T})');
 
-    if (value != null && value is YamlMap) {
-      print('### -v- ${value.values}');
-      print('### -k- ${value.keys}');
+    if (value != null && value is List<Object?>) {
+      print('### -v2- ${value}');
     }
 
+    if (value != null) {
+      if(value is T) {
+        print('### readIn sett !');
+        setter(value);
+        return;
+      }
+      if(value is List<Object?>) {
+        final v2 = values.nonNulls;
+        if (v2 is T) {
+          print('### readIn sett !2');
+          setter(v2 as T);
+          return;
+        }
+        print('### readIn sett !');
+        setter(value);
+        return;
+      }
+    }
 
     if (value != null && value is T) {
       print('### readIn sett !');
