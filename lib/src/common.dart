@@ -37,14 +37,14 @@ class CommonMain {
     required String configName,
     required void Function(YamlMap?, List<String>) configRule,
   }) {
+    stopwatch = Stopwatch()..start();
+
     currentPath = Directory.current.path;
     final pubspecYamlFile = File('$currentPath/pubspec.yaml');
-    final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync());
+    final pubspecYaml = loadYaml(pubspecYamlFile.readAsStringSync()) as YamlMap;
 
     // Getting all dependencies and project package name
     packageName = pubspecYaml['name'].toString();
-
-    stopwatch = Stopwatch()..start();
 
     final pubspecLockFile = File('$currentPath/pubspec.lock');
     final pubspecLock = loadYaml(pubspecLockFile.readAsStringSync());
@@ -53,9 +53,7 @@ class CommonMain {
     if (!argResults.contains('--ignore-config') &&
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
-      print('### config:\n$config (${config.runtimeType})');
       if (config is YamlMap) {
-        print('### config: is yaml)');
         configRule(config, argResults);
         return;
       }
@@ -69,8 +67,6 @@ class CommonMain {
     required List<String> ignoredFiles,
     required List<String> includedContent,
   }) {
-    print('### ignoredFiles:\n$ignoredFiles');
-    print('### includedContent:\n$includedContent');
     dartFiles = files.dartFiles(currentPath, args, includedContent);
     final containsFlutter = dependencies.contains('flutter');
     final containsRegistrant = dartFiles
@@ -86,7 +82,6 @@ class CommonMain {
 
     for (final pattern in ignoredFiles) {
       dartFiles.removeWhere((key, _) {
-        print('### pattern:\n$pattern in ${key.replaceFirst(currentPath, '')}');
         return RegExp(pattern).hasMatch(key.replaceFirst(currentPath, ''));
       });
     }
