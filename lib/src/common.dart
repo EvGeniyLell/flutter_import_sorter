@@ -111,42 +111,43 @@ class CommonMain {
 }
 
 extension YamlMapExtension on YamlMap {
-  void readList<T extends Object>(
-    String parameter,
-    void Function(List<T>) setter,
-  ) {
-    final value = this[parameter];
+  void readList<T extends Object>(String key, void Function(List<T>) setter) {
+    final value = this[key];
     print('### readList<$T> $value(${value.runtimeType})');
 
     if (value != null && value is YamlList) {
-      final r = value.nodes.map((e) {
-        final v = e.value;
-        print('### e $e (${e.value} <${e.value.runtimeType}>)');
-        if (e.value is T) {
-          return v;
+      final Iterable<T> r = value.nodes.map((e) {
+        print('### e $e <${e.runtimeType}>)');
+        if (e is T) {
+          return e as T;
         }
         return null;
       }).nonNulls;
-      print('### YamlList $r');
-      if (r is List<T>) {
-        setter(r);
-      }
+      setter(r.toList());
+      return;
     }
+    assert(
+      false,
+      'Key $key has $value with type ${value.runtimeType}'
+      ' but expected ${List<T>} type',
+    );
   }
 
-  void readScalar<T extends Object>(
-    String parameter,
-    void Function(T) setter,
-  ) {
-    final value = this[parameter];
+  void readScalar<T extends Object>(String key, void Function(T) setter) {
+    final value = this[key];
     print('### readScalar<$T> $value(${value.runtimeType})');
 
     if (value != null && value is YamlScalar) {
-      final r = value.value;
-      print('### YamlScalar $r');
-      if (r is T) {
-        setter(r);
+      print('### YamlScalar $value');
+      if (value is T) {
+        setter(value as T);
+        return;
       }
     }
+    assert(
+      false,
+      'Key $key has $value with type ${value.runtimeType}'
+      ' but expected $T type',
+    );
   }
 }
