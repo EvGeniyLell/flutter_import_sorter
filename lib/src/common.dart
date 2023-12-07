@@ -115,9 +115,11 @@ class CommonMain {
 extension YamlMapExtension on YamlMap {
   void readIn<T extends Object>(String parameter, void Function(T) setter) {
 
-    final value = this[parameter];
+    final value = this[parameter] as T?;
     print('### readIn<$T>($parameter) = $value');
     print('### $value (${value.runtimeType}) is $T ? (${value is T})');
+    print('### $value (${value as T?})');
+
     if (value != null && value is T) {
       print('### readIn sett !');
       setter(value);
