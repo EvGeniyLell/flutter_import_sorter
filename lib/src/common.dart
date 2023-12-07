@@ -112,39 +112,43 @@ class CommonMain {
 
 extension YamlMapExtension on YamlMap {
   void readList<T extends Object>(String key, void Function(List<T>) setter) {
-    final value = _readList<T>(this[key]);
-    print('### readList<$T> $value(${value.runtimeType})');
-    if (value != null) {
-      setter(value);
+    final value = this[key];
+    if (value == null) {
       return;
     }
-    assert(
-      false,
-      'Key $key has $value with type ${value.runtimeType}'
+    final result = _decodeList<T>(value);
+    if (result != null) {
+      setter(result);
+      return;
+    }
+    stdout.write(
+      ' 🚨Key $key has $result with type ${result.runtimeType}'
       ' but expected ${List<T>} type',
     );
   }
 
   void readScalar<T extends Object>(String key, void Function(T) setter) {
-    final value = _readScalar<T>(this[key]);
-    if (value != null) {
-      setter(value);
+    final value = this[key];
+    if (value == null) {
       return;
     }
-    assert(
-      false,
-      'Key $key has $value with type ${value.runtimeType}'
+    final result = _decodeScalar<T>(this[value]);
+    if (result != null) {
+      setter(result);
+      return;
+    }
+    stdout.write(
+      ' 🚨Key $key has $result with type ${result.runtimeType}'
       ' but expected $T type',
     );
   }
 
-  List<T>? _readList<T extends Object>(dynamic value) {
+  List<T>? _decodeList<T extends Object>(dynamic value) {
     if (value != null) {
       if (value is YamlList) {
         return value.nodes
             .map<T?>((node) {
-              final v = _readScalar<T>(node);
-              print('### e $v <${v.runtimeType}>)');
+              final v = _decodeScalar<T>(node);
               if (v != null) {
                 return v;
               }
@@ -157,8 +161,7 @@ extension YamlMapExtension on YamlMap {
     return null;
   }
 
-  T? _readScalar<T>(dynamic value) {
-    print('### _readScalar $value (${value.runtimeType})');
+  T? _decodeScalar<T>(dynamic value) {
     if (value != null) {
       if (value != null && value is YamlScalar) {
         if (value.value is T) {
@@ -169,7 +172,6 @@ extension YamlMapExtension on YamlMap {
         return value;
       }
     }
-    print('### _readScalar return null');
     return null;
   }
 }
