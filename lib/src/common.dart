@@ -6,8 +6,6 @@ import 'package:yaml/yaml.dart';
 
 export 'package:args/args.dart';
 
-typedef YamlMap = Map<Object?, Object?>;
-
 class CommonMain {
   CommonMain();
 
@@ -113,35 +111,37 @@ class CommonMain {
 }
 
 extension YamlMapExtension on YamlMap {
-  void readIn<T extends Object>(String parameter, void Function(T) setter) {
-
+  void readList<T extends Object>(
+    String parameter,
+    void Function(List<T>) setter,
+  ) {
     final value = this[parameter];
-    print('### readIn<$T>($parameter) = $value');
-    print('### $value (${value.runtimeType}) is $T ? (${value is T})');
 
-    if (value != null && value is List<Object?>) {
-      print('### -v2- ${value}');
-    }
-
-    if (value != null) {
-      if(value is T) {
-        print('### readIn sett !');
-        setter(value);
-        return;
-      }
-      if(value is List<Object?>) {
-        final v2 = values.nonNulls;
-        if (v2 is T) {
-          print('### readIn sett !2');
-          setter(v2 as T);
-          return;
+    if (value != null && value is YamlList) {
+      final r = value.nodes.map((e) {
+        final v = e.value;
+        if (e.value is T) {
+          return v;
         }
+        return null;
+      }).nonNulls;
+      if (r is List<T>) {
+        setter(r);
       }
     }
+  }
 
-    if (value != null && value is T) {
-      print('### readIn sett !');
-      setter(value);
+  void readScalar<T extends Object>(
+    String parameter,
+    void Function(T) setter,
+  ) {
+    final value = this[parameter];
+
+    if (value != null && value is YamlScalar) {
+      final r = value.value;
+      if (r is T) {
+        setter(r);
+      }
     }
   }
 }

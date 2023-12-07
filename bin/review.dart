@@ -23,8 +23,8 @@ void main(List<String> args) {
       configRule: (config, argResults) {
         if (config != null) {
           config
-            ..readIn<String>('features_path', (v) => featuresPath = v)
-            ..readIn<Iterable<String>>('ignored_files', ignoredFiles.addAll);
+            ..readScalar('features_path', (String _) => featuresPath = _)
+            ..readList('ignored_files', ignoredFiles.addAll);
         }
       },
     )

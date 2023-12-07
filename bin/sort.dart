@@ -29,8 +29,8 @@ void main(List<String> args) {
       configRule: (config, argResults) {
         if (config != null) {
           config
-            ..readIn<bool>('comments', (v) => useComments = v)
-            ..readIn<Iterable<String>>('ignored_files', ignoredFiles.addAll);
+            ..readScalar<bool>('comments', (bool _) => useComments = _)
+            ..readList('ignored_files', ignoredFiles.addAll);
         } else {
           useComments = argResults.contains('--use-comments');
           exitOnChange = argResults.contains('--exit-if-changed');
