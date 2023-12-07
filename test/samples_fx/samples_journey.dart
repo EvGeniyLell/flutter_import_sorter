@@ -2,7 +2,7 @@ import '../samples.dart';
 
 // ignore_for_file: unnecessary_raw_strings
 
-const sample_fx_journey = TestSampleData(
+const sampleFxJourney = TestSampleData(
   source: r'''
 library journey;
 

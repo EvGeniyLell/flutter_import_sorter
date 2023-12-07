@@ -18,8 +18,7 @@ void main() {
 
   group('Samples', () {
     test('journey', () {
-      testSampleData(sample_fx_journey);
+      testSampleData(sampleFxJourney);
     });
-
   });
 }

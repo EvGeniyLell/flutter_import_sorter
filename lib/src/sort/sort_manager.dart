@@ -43,17 +43,14 @@ class SortManager {
       }
 
       final wasEmpty = strategies.everyListIsEmpty;
-      print('### wasEmpty ($wasEmpty) for line $i:$line');
 
       void remove(int count) {
         if (wasEmpty) {
           for (var i = 1; i < count; i += 1) {
-            print('### beforeLines:removeLast ${beforeLines.last}');
             beforeLines.removeLast();
           }
         } else {
           for (var i = 1; i < count; i += 1) {
-            print('### afterLines:removeLast ${afterLines.last}');
             afterLines.removeLast();
           }
         }
@@ -61,10 +58,8 @@ class SortManager {
 
       if ((!isMultiLineString && !_tryAdd(line, remove)) || isMultiLineString) {
         if (strategies.everyListIsEmpty) {
-          print('### beforeLines:add $line (${beforeLines.length}) $i');
           beforeLines.add(line);
         } else {
-          print('### afterLines:add $line (${afterLines.length}) $i');
           afterLines.add(line);
         }
       }
@@ -83,7 +78,6 @@ class SortManager {
         beforeLines.removeLast();
       }
       if (beforeLines.isNotEmpty) {
-        print('### resultLinesBlocks:add beforeLines $beforeLines');
         resultLinesBlocks.add(beforeLines);
       }
     }
@@ -159,13 +153,7 @@ class SortManager {
 }
 
 extension _SortStrategyListExtension on List<SortStrategy> {
-  bool get everyListIsEmpty => every((strategy) {
-    final result = strategy.getList().isEmpty;
-    if(!result) {
-      print('### strategy $strategy notEmpty');
-    }
-    return result;
-  });
+  bool get everyListIsEmpty => every((strategy) => strategy.getList().isEmpty);
 
   bool tryAdd(String string) {
     for (final strategy in this) {
