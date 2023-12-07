@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:colorize/colorize.dart';
 
 import 'package:flutter_import_flow/src/common.dart';
-import 'package:flutter_import_flow/src/sort_manager.dart';
+import 'package:flutter_import_flow/src/sort/sort_manager.dart';
 
 void main(List<String> args) {
   var useComments = false;

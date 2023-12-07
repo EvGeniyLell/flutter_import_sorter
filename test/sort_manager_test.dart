@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:flutter_import_flow/src/sort_manager.dart';
+import 'package:flutter_import_flow/src/sort/sort_manager.dart';
 import 'samples.dart';
 
 void main() {

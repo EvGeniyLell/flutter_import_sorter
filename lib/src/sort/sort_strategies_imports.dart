@@ -1,43 +1,38 @@
 // ignore_for_file: avoid_escaping_inner_quotes
 
-abstract class SortStrategy {
-  SortStrategy({
-    required this.comment,
-    required this.regExp,
+import 'package:flutter_import_flow/src/sort/sort_strategy.dart';
+
+abstract class ImportSortStrategy extends SortStrategy {
+  static List<ImportSortStrategy> all(String projectName) {
+    return [
+      ImportSortStrategy.dart(),
+      ImportSortStrategy.flutter(),
+      ImportSortStrategy.package(projectName),
+      ImportSortStrategy.project(projectName),
+    ];
+  }
+
+  ImportSortStrategy({
+    required super.comment,
+    required super.regExp,
   });
 
-  factory SortStrategy.dartImports() = DartImportsSortStrategy;
+  factory ImportSortStrategy.dart() = DartImportsSortStrategy;
 
-  factory SortStrategy.flutterImports() = FlutterImportsSortStrategy;
+  factory ImportSortStrategy.flutter() = FlutterImportsSortStrategy;
 
-  factory SortStrategy.packageImports(String excludeProjectName) =
+  factory ImportSortStrategy.package(String excludeProjectName) =
       PackageImportsSortStrategy;
 
-  factory SortStrategy.projectImports(String projectName) =
+  factory ImportSortStrategy.project(String projectName) =
       ProjectImportsSortStrategy;
 
-  factory SortStrategy.exports() = ExportsSortStrategy;
-
-  factory SortStrategy.parts() = PartsSortStrategy;
-
-  final String comment;
-  final RegExp regExp;
-  final List<String> _list = [];
-
-  List<String> getList() => _list..sort();
-
-  void clearList() => _list.clear();
-
-  bool tryAdd(String string) {
-    if (regExp.hasMatch(string.trim())) {
-      _list.add(string);
-      return true;
-    }
-    return false;
-  }
+// factory SortStrategyImport.exports() = ProjectRelativeExportsSortStrategy;
+//
+// factory SortStrategyImport.parts() = PartsSortStrategy;
 }
 
-class DartImportsSortStrategy extends SortStrategy {
+class DartImportsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Dart imports:';
 
   DartImportsSortStrategy()
@@ -50,7 +45,7 @@ class DartImportsSortStrategy extends SortStrategy {
         );
 }
 
-class FlutterImportsSortStrategy extends SortStrategy {
+class FlutterImportsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Flutter imports:';
 
   FlutterImportsSortStrategy()
@@ -63,7 +58,7 @@ class FlutterImportsSortStrategy extends SortStrategy {
         );
 }
 
-class PackageImportsSortStrategy extends SortStrategy {
+class PackageImportsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Package imports:';
 
   PackageImportsSortStrategy(String excludeProjectName)
@@ -76,7 +71,7 @@ class PackageImportsSortStrategy extends SortStrategy {
         );
 }
 
-class ProjectImportsSortStrategy extends SortStrategy {
+class ProjectImportsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Project imports:';
 
   ProjectImportsSortStrategy(String projectName)
@@ -110,7 +105,7 @@ class ProjectImportsSortStrategy extends SortStrategy {
   }
 }
 
-class ProjectRelativeImportsSortStrategy extends SortStrategy {
+class ProjectRelativeImportsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Project relative imports:';
 
   ProjectRelativeImportsSortStrategy()
@@ -123,20 +118,20 @@ class ProjectRelativeImportsSortStrategy extends SortStrategy {
         );
 }
 
-class ExportsSortStrategy extends SortStrategy {
-  static String defComment = '// Export:';
+class ProjectRelativeExportsSortStrategy extends ImportSortStrategy {
+  static String defComment = '// Project relative export:';
 
-  ExportsSortStrategy()
+  ProjectRelativeExportsSortStrategy()
       : super(
-    comment: defComment,
-    regExp: RegExp(
-      '^export \'.*;\$',
-      dotAll: true,
-    ),
-  );
+          comment: defComment,
+          regExp: RegExp(
+            '^export \'.*;\$',
+            dotAll: true,
+          ),
+        );
 }
 
-class PartsSortStrategy extends SortStrategy {
+class PartsSortStrategy extends ImportSortStrategy {
   static String defComment = '// Parts:';
 
   PartsSortStrategy()
