@@ -55,8 +55,9 @@ class CommonMain {
     if (!argResults.contains('--ignore-config') &&
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
-      print('### config:\n$config');
+      print('### config:\n$config (${config.runtimeType})');
       if (config is YamlMap) {
+        print('### config: is yaml)');
         configRule(config, argResults);
         return;
       }
