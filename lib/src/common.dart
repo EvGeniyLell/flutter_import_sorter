@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:yaml/yaml.dart';
-
 import 'package:flutter_import_flow/src/files.dart' as files;
+import 'package:yaml/yaml.dart';
 
 export 'package:args/args.dart';
 
@@ -46,6 +45,7 @@ class CommonMain {
 
     // Getting all dependencies and project package name
     packageName = pubspecYaml['name'].toString();
+    print('### pubspecYaml:\n$pubspecYaml');
 
     stopwatch = Stopwatch()..start();
 
@@ -56,7 +56,7 @@ class CommonMain {
     if (!argResults.contains('--ignore-config') &&
         pubspecYaml.containsKey(configName)) {
       final config = pubspecYaml[configName];
-      print('### $config');
+      print('### config:\n$config');
       if (config is YamlMap) {
         configRule(config, argResults);
         return;
@@ -71,7 +71,10 @@ class CommonMain {
     required List<String> ignoredFiles,
     required List<String> includedContent,
   }) {
+    print('### ignoredFiles:\n$ignoredFiles');
+    print('### includedContent:\n$includedContent');
     dartFiles = files.dartFiles(currentPath, args, includedContent);
+    print('### dartFiles:\n$dartFiles');
     final containsFlutter = dependencies.contains('flutter');
     final containsRegistrant = dartFiles
         .containsKey('$currentPath/lib/generated_plugin_registrant.dart');
@@ -85,9 +88,10 @@ class CommonMain {
     }
 
     for (final pattern in ignoredFiles) {
-      dartFiles.removeWhere(
-        (key, _) => RegExp(pattern).hasMatch(key.replaceFirst(currentPath, '')),
-      );
+      dartFiles.removeWhere((key, _) {
+        print('### pattern:\n$pattern in ${key.replaceFirst(currentPath, '')}');
+        return RegExp(pattern).hasMatch(key.replaceFirst(currentPath, ''));
+      });
     }
   }
 
