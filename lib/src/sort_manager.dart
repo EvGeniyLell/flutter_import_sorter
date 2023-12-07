@@ -10,6 +10,7 @@ class SortManager {
         SortStrategy.flutterImports(),
         SortStrategy.packageImports(packageName),
         SortStrategy.projectImports(packageName),
+        SortStrategy.exports(),
         SortStrategy.parts(),
       ],
     );

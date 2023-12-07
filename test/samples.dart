@@ -358,6 +358,16 @@ import 'package:import_sorter_test/src/map/ui/widgets/load_route_button.dart';
 import 'package:import_sorter_test/src/map/utils/distance_info_extension.dart';
 import 'package:import_sorter_test/src/stops/stops.dart';
 
+export 'exceptions/teg_unexpected_exception.dart';
+export 'ui/balloon_button.dart';
+export 'repositories/feature_flags_repository.dart';
+
+export 'ui/adaptive_widget.dart';
+
+export 'ui/balloon_manager.dart';
+
+export 'exceptions/teg_vehicle_unavailable_exception.dart';
+
 part 'load_route_screen_components.dart';
 
 /// Screen where user can see alert route info.
@@ -382,6 +392,13 @@ import 'package:import_sorter_test/src/map/map.dart';
 import 'package:import_sorter_test/src/map/ui/widgets/load_route_button.dart';
 import 'package:import_sorter_test/src/map/utils/distance_info_extension.dart';
 import 'package:import_sorter_test/src/stops/stops.dart';
+
+export 'exceptions/teg_unexpected_exception.dart';
+export 'exceptions/teg_vehicle_unavailable_exception.dart';
+export 'repositories/feature_flags_repository.dart';
+export 'ui/adaptive_widget.dart';
+export 'ui/balloon_button.dart';
+export 'ui/balloon_manager.dart';
 
 part 'load_route_screen_components.dart';
 
