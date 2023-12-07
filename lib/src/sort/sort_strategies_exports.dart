@@ -1,6 +1,6 @@
-// ignore_for_file: avoid_escaping_inner_quotes
-
 import 'package:flutter_import_flow/src/sort/sort_strategy.dart';
+
+// ignore_for_file: avoid_escaping_inner_quotes
 
 abstract class ExportSortStrategy extends SortStrategy {
   static List<ExportSortStrategy> all(String projectName) {

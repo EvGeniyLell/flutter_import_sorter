@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:flutter_import_flow/src/review.dart';
+import 'package:flutter_import_flow/src/review/review.dart';
 
 void main() {
   //final sortManager = SortManager(packageName: packageName);

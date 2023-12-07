@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:colorize/colorize.dart';
 
 import 'package:flutter_import_flow/src/common.dart';
-import 'package:flutter_import_flow/src/review.dart' as review;
+import 'package:flutter_import_flow/src/review/review.dart' as review;
 
 void main(List<String> args) {
   var featuresPath = 'src';
