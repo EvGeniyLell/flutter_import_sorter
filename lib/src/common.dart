@@ -116,15 +116,18 @@ extension YamlMapExtension on YamlMap {
     void Function(List<T>) setter,
   ) {
     final value = this[parameter];
+    print('### readList<$T> $value(${value.runtimeType})');
 
     if (value != null && value is YamlList) {
       final r = value.nodes.map((e) {
         final v = e.value;
+        print('### e $e (${e.value} <${e.value.runtimeType}>)');
         if (e.value is T) {
           return v;
         }
         return null;
       }).nonNulls;
+      print('### YamlList $r');
       if (r is List<T>) {
         setter(r);
       }
@@ -136,9 +139,11 @@ extension YamlMapExtension on YamlMap {
     void Function(T) setter,
   ) {
     final value = this[parameter];
+    print('### readScalar<$T> $value(${value.runtimeType})');
 
     if (value != null && value is YamlScalar) {
       final r = value.value;
+      print('### YamlScalar $r');
       if (r is T) {
         setter(r);
       }
