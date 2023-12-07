@@ -30,7 +30,7 @@ void main(List<String> args) {
         if (config != null) {
           config
             ..readIn<bool>('comments', (v) => useComments = v)
-            ..readIn('ignored_files', ignoredFiles.addAll);
+            ..readIn<Iterable<String>>('ignored_files', ignoredFiles.addAll);
         } else {
           useComments = argResults.contains('--use-comments');
           exitOnChange = argResults.contains('--exit-if-changed');

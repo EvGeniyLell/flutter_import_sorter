@@ -24,7 +24,7 @@ void main(List<String> args) {
         if (config != null) {
           config
             ..readIn<String>('features_path', (v) => featuresPath = v)
-            ..readIn('ignored_files', ignoredFiles.addAll);
+            ..readIn<Iterable<String>>('ignored_files', ignoredFiles.addAll);
         }
       },
     )
