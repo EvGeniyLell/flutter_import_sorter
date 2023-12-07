@@ -87,7 +87,11 @@ class ProjectImportsSortStrategy extends ImportSortStrategy {
 
   @override
   List<String> getList() {
-    return [...super.getList(), '', ...relative.getList()];
+    return [
+      ...super.getList(),
+      if (relative.getList().isNotEmpty) '',
+      ...relative.getList(),
+    ];
   }
 
   @override
