@@ -92,6 +92,7 @@ int reviewImports(
     if (appImportMatch != null) {
       final part1 = appImportMatch.group(1);
       final part2 = appImportMatch.group(2);
+      stdout.write('### 1:$part1, 2:$part2, fName:$featureName');
       return part1 != null &&
           part2 != null &&
           part1 != featureName &&
