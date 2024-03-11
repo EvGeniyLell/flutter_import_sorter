@@ -15,6 +15,8 @@ int reviewImports(
   required String appDirName,
   required String featuresPath,
 }) {
+  stdout.write('reviewImports:{ packageName:$packageName, filePath:$filePath, appDirName:$appDirName, featuresPath:$featuresPath}\n');
+
   void detectFeature(
     /// where
     /// myApp/lib/src/[featureName]/[featureExtension]
@@ -92,7 +94,7 @@ int reviewImports(
     if (appImportMatch != null) {
       final part1 = appImportMatch.group(1);
       final part2 = appImportMatch.group(2);
-      stdout.write('### 1:$part1, 2:$part2, fName:$featureName');
+      stdout.write('isFeatureImport:{ 1:$part1, 2:$part2,} fName:$featureName\n');
       return part1 != null &&
           part2 != null &&
           part1 != featureName &&
@@ -118,6 +120,7 @@ int reviewImports(
   String? previousExportPath;
 
   detectFeature((featureName, featureExtension) {
+    stdout.write('detectFeature:{ featureName:$featureName, featureExtension:$featureExtension}\n');
     void addError(String title, int lineIndex, String tag) {
       if (numberOfErrors < 1) {
         stdout.write(
@@ -135,7 +138,9 @@ int reviewImports(
     }
 
     detectAppImport((line, lineIndex, appImport) {
+      stdout.write('detectAppImport:{ appImport:$appImport}\n');
       if (appImport.startsWith(featureName)) {
+        stdout.write('appImport.startsWith:{$featureName}\n');
         return;
       } else {
         if (isShortFeatureImport(appImport) ||
@@ -148,6 +153,7 @@ int reviewImports(
       }
     });
     detectAppExport((line, lineIndex, exportPath) {
+      stdout.write('detectAppExport:{ exportPath:$exportPath}\n');
       if (previousExportPath != null && previousExportPath == exportPath) {
         addError('duplicate export', lineIndex, exportPath);
       }
