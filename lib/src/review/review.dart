@@ -85,12 +85,18 @@ int reviewImports(
 
   /// like: import 'package:app/src/featureA/featureA.dart';
   /// where [appImport] - featureA/featureA.dart
+  ///
+  /// import - featureA/featureA.dart for featureA is forbidden
   bool isFeatureImport(String appImport) {
     final appImportMatch = RegExp(r'^(.*?)/(.*)\.dart$').firstMatch(appImport);
     if (appImportMatch != null) {
       final part1 = appImportMatch.group(1);
       final part2 = appImportMatch.group(2);
-      return part1 != null && part2 != null && part1 == part2;
+      return part1 != null &&
+          part2 != null &&
+          part1 != featuresPath &&
+          part2 != featuresPath &&
+          part1 == part2;
     }
     return false;
   }
