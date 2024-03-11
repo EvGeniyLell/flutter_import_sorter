@@ -101,7 +101,6 @@ int reviewImports(
     if (appImportMatch != null) {
       final part1 = appImportMatch.group(1);
       final part2 = appImportMatch.group(2);
-      stdout.write('isForbiddenSelfFeatureImport:{$part1,$part2}\n');
       return part1 != null && part2 != null && part1 == part2;
     }
     return false;
