@@ -15,9 +15,6 @@ int reviewImports(
   required String appDirName,
   required String featuresPath,
 }) {
-  stdout.write(
-      'reviewImports:{ packageName:$packageName, filePath:$filePath, appDirName:$appDirName, featuresPath:$featuresPath}\n');
-
   void detectFeature(
     /// where
     /// myApp/lib/src/[featureName]/[featureExtension]
@@ -104,7 +101,8 @@ int reviewImports(
     if (appImportMatch != null) {
       final part1 = appImportMatch.group(1);
       final part2 = appImportMatch.group(2);
-      return part1 != null && part2 != null && part1 != part2;
+      stdout.write('isForbiddenSelfFeatureImport:{$part1,$part2}\n');
+      return part1 != null && part2 != null && part1 == part2;
     }
     return false;
   }
@@ -125,8 +123,6 @@ int reviewImports(
   String? previousExportPath;
 
   detectFeature((featureName, featureExtension) {
-    stdout.write(
-        'detectFeature:{ featureName:$featureName, featureExtension:$featureExtension}\n');
     void addError(String title, int lineIndex, String tag) {
       if (numberOfErrors < 1) {
         stdout.write(
@@ -144,9 +140,7 @@ int reviewImports(
     }
 
     detectAppImport((line, lineIndex, appImport) {
-      stdout.write('detectAppImport:{ appImport:$appImport}\n');
       if (appImport.startsWith(featureName)) {
-        stdout.write('appImport.startsWith:{$featureName}\n');
         if (isForbiddenSelfFeatureImport(appImport)) {
           addError('wrong import', lineIndex, appImport);
         }
