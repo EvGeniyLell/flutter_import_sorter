@@ -95,6 +95,17 @@ int reviewImports(
     return false;
   }
 
+  /// import - featureA/featureA.dart for featureA is forbidden
+  bool isForbiddenSelfFeatureImport(String appImport) {
+    final appImportMatch = RegExp(r'^(.*?)/(.*)\.dart$').firstMatch(appImport);
+    if (appImportMatch != null) {
+      final part1 = appImportMatch.group(1);
+      final part2 = appImportMatch.group(2);
+      return part1 != null && part2 != null && part1 == part2;
+    }
+    return false;
+  }
+
   /// like: import 'package:app/src/feature/dtos/dtos.dart';
   /// where [appImport] - feature/dtos/dtos.dart
   bool isFeatureDtosImport(String appImport) {
@@ -129,6 +140,9 @@ int reviewImports(
 
     detectAppImport((line, lineIndex, appImport) {
       if (appImport.startsWith(featureName)) {
+        if (isForbiddenSelfFeatureImport(appImport)) {
+          addError('wrong import', lineIndex, appImport);
+        }
         return;
       } else {
         if (isShortFeatureImport(appImport) ||
